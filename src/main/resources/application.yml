@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ms-project
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/ms?useSSL=false&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
