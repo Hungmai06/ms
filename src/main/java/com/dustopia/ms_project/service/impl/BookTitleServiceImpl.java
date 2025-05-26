@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,6 +69,24 @@ public class BookTitleServiceImpl implements BookTitleService {
                 .publicYear(bookTitleRequest.getPublicYear())
                 .publisher(bookTitleRequest.getPublisher())
                 .build();
+    }
+
+    @Override
+    public List<BookResponse> getAllBookTitle() {
+        List<BookTitle> bookTitles = bookTitleRepository.findAll();
+        List<BookResponse> bookResponses = new ArrayList<>();
+        for(BookTitle x: bookTitles){
+            bookResponses.add(BookResponse.builder()
+                    .Id(x.getId())
+                    .author(x.getAuthor())
+                    .name(x.getName())
+                    .category(x.getCategory())
+                    .description(x.getDescription())
+                    .publicYear(x.getPublicYear())
+                    .publisher(x.getPublisher())
+                    .build());
+        }
+        return bookResponses;
     }
 
 }

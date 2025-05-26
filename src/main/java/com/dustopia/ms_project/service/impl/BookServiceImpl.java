@@ -102,6 +102,7 @@ public class BookServiceImpl implements BookService {
         BookTitle bookTitle = bookTitleRepository.findById(book1.getBookTitle().getId()).get();
         return BookResponse.builder()
                 .Id(book1.getId())
+                .bookTitleId(bookTitle.getId())
                 .description(bookTitle.getDescription())
                 .publisher(bookTitle.getPublisher())
                 .author(bookTitle.getAuthor())
@@ -121,6 +122,7 @@ public class BookServiceImpl implements BookService {
             BookTitle bookTitle = bookTitleRepository.findById(x.getBookTitle().getId()).get();
             bookResponses.add(BookResponse.builder()
                     .Id(x.getId())
+                    .bookTitleId(bookTitle.getId())
                     .description(bookTitle.getDescription())
                     .publisher(bookTitle.getPublisher())
                     .author(bookTitle.getAuthor())
@@ -145,6 +147,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
         return BookResponse.builder()
                 .Id(book.getId())
+                .bookTitleId(bookTitle.getId())
                 .description(bookTitle.getDescription())
                 .publisher(bookTitle.getPublisher())
                 .author(bookTitle.getAuthor())

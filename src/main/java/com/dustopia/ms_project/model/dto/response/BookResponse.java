@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BookResponse {
     private String Id;
+    private String bookTitleId;
     private String name;
     private String author;
     private String category;
