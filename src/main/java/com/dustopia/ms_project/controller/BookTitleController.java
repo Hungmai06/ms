@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +26,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookTitleController {
      private final BookTitleService bookTitleService;
+     @GetMapping("/book-titles/")
+     public ResponseEntity<List<BookResponse>> getAllBookTitle(){
+         return ResponseEntity.ok(bookTitleService.getAllBookTitle());
+     }
 
      @PostMapping("/book-titles/")
      public ResponseEntity<BookResponse> createBookTitle(@RequestBody BookTitleRequest bookTitleRequest){
