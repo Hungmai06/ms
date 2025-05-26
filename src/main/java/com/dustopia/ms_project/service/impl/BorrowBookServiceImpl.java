@@ -179,7 +179,7 @@ public class BorrowBookServiceImpl implements BorrowBookService {
             Book book = bookRepository.findById(x.getBook().getId()).orElseThrow();
             BookTitle bookTitle = bookTitleRepository.findById(book.getBookTitle().getId()).orElseThrow();
             list.add(BorrowedBookResponse.builder()
-                            .id(book.getId())
+                            .id(x.getId())
                             .expectedReturnTime(x.getExpectedReturnTime())
                             .borrowTime(bookBorrowing.getTime())
                             .compensate(0f)

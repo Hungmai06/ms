@@ -6,35 +6,35 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public interface BookRepository extends JpaRepository<Book, String> {
+
     @Query(value = """
         SELECT
             (SELECT COUNT(*) FROM borrowed_book),
             (SELECT COUNT(*) FROM book_borrowing),
             (SELECT COUNT(*) FROM book_returning),
-            (SELECT COALESCE(SUM(compensation), 0) FROM book_damage);
+            (SELECT COALESCE(SUM(compensation), 0) FROM book_damage)
     """, nativeQuery = true)
     List<Object[]> findBorrowedBookKPI();
 
     @Query(value = """
         SELECT
-            TO_CHAR(bb.time, 'MM/YYYY'),
-            COUNT(*)
+            DATE_FORMAT(bb.time, '%m/%Y') AS month_year,
+            COUNT(*) AS borrow_count
         FROM
             book_borrowing bb
         JOIN
             borrowed_book b ON bb.id = b.book_borrowing_id
         WHERE
-            bb.time BETWEEN\s
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))\s
-                AND\s
+            bb.time BETWEEN
+                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
+                AND
                 COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
         GROUP BY
-            TO_CHAR(bb.time, 'MM/YYYY')
+            DATE_FORMAT(bb.time, '%m/%Y')
         ORDER BY
-            TO_DATE(TO_CHAR(bb.time, 'MM/YYYY'), 'MM/YYYY')
+            STR_TO_DATE(CONCAT('01/', DATE_FORMAT(bb.time, '%m/%Y')), '%d/%m/%Y')
     """, nativeQuery = true)
     List<Object[]> findBorrowedBookChart(LocalDate startDate, LocalDate endDate);
 

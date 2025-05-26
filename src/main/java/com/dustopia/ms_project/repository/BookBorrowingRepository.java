@@ -1,15 +1,14 @@
 package com.dustopia.ms_project.repository;
 
 import com.dustopia.ms_project.model.entity.BookBorrowing;
-import com.dustopia.ms_project.model.entity.Reader;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public interface BookBorrowingRepository extends JpaRepository<BookBorrowing, String> {
+
     @Query(value = """
         SELECT
             bbor.time,
