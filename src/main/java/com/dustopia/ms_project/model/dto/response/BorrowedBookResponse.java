@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BorrowedBookResponse {
+    private String id;
     private String bookName;
     private LocalDateTime borrowTime;
     private LocalDateTime expectedReturnTime;
