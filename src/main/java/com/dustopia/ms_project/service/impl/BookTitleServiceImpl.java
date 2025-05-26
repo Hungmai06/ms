@@ -1,10 +1,8 @@
 package com.dustopia.ms_project.service.impl;
 
 import com.dustopia.ms_project.exception.InvalidException;
-import com.dustopia.ms_project.model.dto.request.BookRequest;
 import com.dustopia.ms_project.model.dto.request.BookTitleRequest;
 import com.dustopia.ms_project.model.dto.response.BookResponse;
-import com.dustopia.ms_project.model.entity.Book;
 import com.dustopia.ms_project.model.entity.BookTitle;
 import com.dustopia.ms_project.repository.BookRepository;
 import com.dustopia.ms_project.repository.BookTitleRepository;
@@ -12,7 +10,6 @@ import com.dustopia.ms_project.service.BookTitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

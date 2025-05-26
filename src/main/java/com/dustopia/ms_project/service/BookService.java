@@ -1,7 +1,6 @@
 package com.dustopia.ms_project.service;
 
 import com.dustopia.ms_project.exception.InvalidException;
-import com.dustopia.ms_project.model.dto.request.BookRequest;
 import com.dustopia.ms_project.model.dto.response.BookResponse;
 import com.dustopia.ms_project.model.dto.response.BorrowedBookKPIResponse;
 import com.dustopia.ms_project.model.dto.response.BorrowedBookStatResponse;
@@ -10,7 +9,6 @@ import com.dustopia.ms_project.model.dto.response.ChartResponse;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public interface BookService {
     BorrowedBookKPIResponse getBorrowedBookKPI();
@@ -25,7 +23,7 @@ public interface BookService {
 
     List<BookResponse> getAllBook();
 
-    BookResponse createBook(BookRequest bookRequest);
+    BookResponse createBook(String bookTitleId);
 
     void deleteBook(String id);
 }

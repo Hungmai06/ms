@@ -1,7 +1,6 @@
 package com.dustopia.ms_project.service.impl;
 
 import com.dustopia.ms_project.exception.InvalidException;
-import com.dustopia.ms_project.model.dto.request.BookRequest;
 import com.dustopia.ms_project.model.dto.response.BookResponse;
 import com.dustopia.ms_project.model.dto.response.BorrowedBookKPIResponse;
 import com.dustopia.ms_project.model.dto.response.BorrowedBookStatResponse;
@@ -136,12 +135,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponse createBook(BookRequest bookRequest) {
-        BookTitle bookTitle = bookTitleRepository.findById(bookRequest.getBook_title_id()).get();
-        BookImporting bookImporting = bookImportingRepository.findById(bookRequest.getBook_importing_id()).get();
+    public BookResponse createBook(String bookTitleId) {
+        BookTitle bookTitle = bookTitleRepository.findById(bookTitleId).get();
+
         Book book = Book.builder()
                 .id(UUID.randomUUID().toString())
-                .bookImporting(bookImporting)
+                .bookImporting(null)
                 .bookTitle(bookTitle)
                 .build();
         bookRepository.save(book);
@@ -154,7 +153,6 @@ public class BookServiceImpl implements BookService {
                 .category(bookTitle.getCategory())
                 .publicYear(bookTitle.getPublicYear())
                 .name(bookTitle.getName())
-                .nameSupplier(bookImporting.getSupplier().getName())
                 .build();
     }
 
