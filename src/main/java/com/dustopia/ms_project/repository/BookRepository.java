@@ -20,21 +20,25 @@ public interface BookRepository extends JpaRepository<Book, String> {
 
     @Query(value = """
         SELECT
-            DATE_FORMAT(bb.time, '%m/%Y') AS month_year,
+            month_year,
             COUNT(*) AS borrow_count
-        FROM
-            book_borrowing bb
-        JOIN
-            borrowed_book b ON bb.id = b.book_borrowing_id
-        WHERE
-            bb.time BETWEEN
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
-                AND
-                COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
+        FROM (
+            SELECT
+                DATE_FORMAT(bb.time, '%m/%Y') AS month_year
+            FROM
+                book_borrowing bb
+            JOIN
+                borrowed_book b ON bb.id = b.book_borrowing_id
+            WHERE
+                DATE(bb.time) BETWEEN
+                    COALESCE(:startDate, (SELECT MIN(DATE(time)) FROM book_borrowing))
+                    AND
+                    COALESCE(:endDate, (SELECT MAX(DATE(time)) FROM book_borrowing))
+        ) AS sub
         GROUP BY
-            DATE_FORMAT(bb.time, '%m/%Y')
+            month_year
         ORDER BY
-            STR_TO_DATE(CONCAT('01/', DATE_FORMAT(bb.time, '%m/%Y')), '%d/%m/%Y')
+            STR_TO_DATE(CONCAT('01/', month_year), '%d/%m/%Y')
     """, nativeQuery = true)
     List<Object[]> findBorrowedBookChart(LocalDate startDate, LocalDate endDate);
 
@@ -56,10 +60,10 @@ public interface BookRepository extends JpaRepository<Book, String> {
         JOIN
             book_borrowing bbor ON bb.book_borrowing_id = bbor.id
         WHERE
-            bbor.time BETWEEN
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
+            DATE(bbor.time) BETWEEN
+                COALESCE(:startDate, (SELECT MIN(DATE(time)) FROM book_borrowing))
                 AND
-                COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
+                COALESCE(:endDate, (SELECT MAX(DATE(time)) FROM book_borrowing))
         GROUP BY
             bt.id, bt.name, bt.author, bt.public_year, bt.publisher, bt.category
         ORDER BY

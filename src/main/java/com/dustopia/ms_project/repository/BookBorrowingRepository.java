@@ -32,11 +32,10 @@ public interface BookBorrowingRepository extends JpaRepository<BookBorrowing, St
             book_damage bd ON bd.borrowed_book_id = bb.id
         WHERE
             bt.id = :bookTitleId
-            AND
-            bbor.time BETWEEN
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
+            AND DATE(bbor.time) BETWEEN
+                COALESCE(:startDate, (SELECT MIN(DATE(time)) FROM book_borrowing))
                 AND
-                COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
+                COALESCE(:endDate, (SELECT MAX(DATE(time)) FROM book_borrowing))
         ORDER BY
             bbor.time DESC
     """, nativeQuery = true)
@@ -66,11 +65,10 @@ public interface BookBorrowingRepository extends JpaRepository<BookBorrowing, St
             book_damage bd ON bd.borrowed_book_id = bb.id
         WHERE
             bbor.id = :bookBorrowingId
-            AND
-            bbor.time BETWEEN
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
+            AND DATE(bbor.time) BETWEEN
+                COALESCE(:startDate, (SELECT MIN(DATE(time)) FROM book_borrowing))
                 AND
-                COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
+                COALESCE(:endDate, (SELECT MAX(DATE(time)) FROM book_borrowing))
         ORDER BY
             bbor.time DESC
     """, nativeQuery = true)
@@ -86,11 +84,12 @@ public interface BookBorrowingRepository extends JpaRepository<BookBorrowing, St
             book_borrowing bbor
         WHERE
             bbor.reader_id = :readerId
-            AND
-            bbor.time BETWEEN
-                COALESCE(:startDate, (SELECT MIN(time) FROM book_borrowing))
+            AND DATE(bbor.time) BETWEEN
+                COALESCE(:startDate, (SELECT MIN(DATE(time)) FROM book_borrowing))
                 AND
-                COALESCE(:endDate, (SELECT MAX(time) FROM book_borrowing))
+                COALESCE(:endDate, (SELECT MAX(DATE(time)) FROM book_borrowing))
+        ORDER BY
+            bbor.time DESC
     """, nativeQuery = true)
     List<Object[]> findByReaderAndTime(String readerId, LocalDate startDate, LocalDate endDate);
 }
