@@ -99,4 +99,21 @@ public class UserServiceImpl implements UserService {
         }
         return readerResponses;
     }
+
+    @Override
+    public ReaderResponse getReaderById(String id) {
+        Optional<Reader> optionalReader = userRepository.findById(id);
+        if(optionalReader.isEmpty()){
+            throw new InvalidException("Reader not found");
+        }
+        Reader reader =optionalReader.get();
+        return ReaderResponse.builder()
+                .fullName(reader.getFullName())
+                .address(reader.getAddress())
+                .id(reader.getId())
+                .dateOfBirth(reader.getDateOfBirth())
+                .email(reader.getEmail())
+                .username(reader.getUsername())
+                .build();
+    }
 }

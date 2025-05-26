@@ -30,6 +30,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllReader());
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<ReaderResponse> getReaderById(@PathVariable String id){
+        return ResponseEntity.ok(userService.getReaderById(id));
+    }
     @PostMapping("/users/")
     public ResponseEntity<ReaderResponse>  registerReader(@RequestBody ReaderRequest request) throws InvalidException {
         return ResponseEntity.ok(userService.registerReader(request));

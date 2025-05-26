@@ -16,4 +16,6 @@ public interface UserService {
     void deleteReader(String uuid) throws InvalidException;
 
     List<ReaderResponse> getAllReader();
+
+    ReaderResponse getReaderById(String id);
 }
