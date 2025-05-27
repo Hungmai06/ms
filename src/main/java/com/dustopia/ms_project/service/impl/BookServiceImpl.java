@@ -97,7 +97,6 @@ public class BookServiceImpl implements BookService {
             throw new InvalidException("Book not existed");
         }
         Book book1 = book.get();
-        BookImporting bookImporting = bookImportingRepository.findById(book1.getBookImporting().getId()).get();
         BookTitle bookTitle = bookTitleRepository.findById(book1.getBookTitle().getId()).get();
         return BookResponse.builder()
                 .Id(book1.getId())
@@ -108,7 +107,6 @@ public class BookServiceImpl implements BookService {
                 .category(bookTitle.getCategory())
                 .publicYear(bookTitle.getPublicYear())
                 .name(bookTitle.getName())
-                .nameSupplier(bookImporting.getSupplier().getName())
                 .build();
     }
 
@@ -117,7 +115,6 @@ public class BookServiceImpl implements BookService {
         List<Book> books = bookRepository.findAll();
         List<BookResponse> bookResponses = new ArrayList<>();
         for(Book x: books){
-            BookImporting bookImporting = bookImportingRepository.findById(x.getBookImporting().getId()).get();
             BookTitle bookTitle = bookTitleRepository.findById(x.getBookTitle().getId()).get();
             bookResponses.add(BookResponse.builder()
                     .Id(x.getId())
@@ -128,7 +125,6 @@ public class BookServiceImpl implements BookService {
                     .category(bookTitle.getCategory())
                     .publicYear(bookTitle.getPublicYear())
                     .name(bookTitle.getName())
-                    .nameSupplier(bookImporting.getSupplier().getName())
                     .build());
         }
         return bookResponses;

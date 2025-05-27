@@ -20,5 +20,5 @@ public class BookResponse {
     private Integer publicYear;
     private String publisher;
     private String description;
-    private String nameSupplier;
+
 }
